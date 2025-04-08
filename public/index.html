@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahi-SOS </title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #faf9f8;
+      color: #1b2a41;
+    }
+
+    header {
+      background-color: #225a8b;
+      color: white;
+      padding: 1.5rem 0;
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .report-form, .how-it-works {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .report-form h2 {
+      text-align: center;
+      color: #225a8b;
+    }
+
+    form input[type="text"],
+    form input[type="file"] {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 1px solid #225a8b;
+      border-radius: 8px;
+    }
+
+    form button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #225a8b;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .how-it-works {
+      background-image: url('https://cdn.pixabay.com/photo/2020/04/16/10/17/dog-5057894_1280.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      position: relative;
+    }
+
+    .how-it-works::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgb(34,90,139);
+      border-radius: 15px;
+      z-index: 0;
+    }
+
+    .how-it-works h2 {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      font-size: 2rem;
+      color: white;
+      font-weight: bold;
+    }
+
+    .how-it-works p,
+    .how-it-works .steps {
+      position: relative;
+      z-index: 1;
+    }
+
+    .how-it-works .steps {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      background-color: #fff8f0;
+      color: #1b2a41;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      flex: 1 1 30%;
+      margin: 0.5rem;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #225a8b;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+   <h5>Compassion in Action for Every Life</h5> 
+  </header>
+  
+
+  <main>
+    <section class="report-form">
+      <h2>Report an Animal in Distress</h2>
+      <form id="reportForm" enctype="multipart/form-data">
+        <input type="text" name="description" placeholder="Describe the situation" required />
+
+        <!-- Hidden fields for location -->
+        <input type="hidden" name="latitude" id="latitude" />
+        <input type="hidden" name="longitude" id="longitude" />
+
+        <input type="file" name="photo" accept="image/*" required />
+
+        <button type="submit">📩 Submit Report</button>
+      </form>
+    </section>
+
+    <section class="how-it-works">
+      <h2>How It Works</h2>
+      <p style="text-align: center;">It's a simple 3-step process to save lives</p>
+      <div class="steps">
+        <div class="step">📸 Upload a Photo</div>
+        <div class="step">📍 Share Location</div>
+        <div class="step">🚑 Help Arrives</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Help Paw | With 💙 for Animals
+  </footer>
+
+  <script>
+    window.onload = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          document.getElementById('latitude').value = position.coords.latitude;
+          document.getElementById('longitude').value = position.coords.longitude;
+          console.log("✅ Location set:", position.coords.latitude, position.coords.longitude);
+        }, () => {
+          alert("📍 Please enable location to send reports.");
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    };
+
+    document.getElementById("reportForm").addEventListener("submit", (e) => {
+      const lat = document.getElementById('latitude').value;
+      const lon = document.getElementById('longitude').value;
+      if (!lat || !lon) {
+        e.preventDefault();
+        alert("📍 Please wait while we fetch your location...");
+      } else {
+        console.log("🚀 Submitting with location:", lat, lon);
+      }
+    });
+  </script>
+</body>
+</html>
